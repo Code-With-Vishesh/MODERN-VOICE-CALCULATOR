@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VOICE CALCULATOR — Code With Vishesh</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><code>&lt;/&gt;</code></div>
+        <div class="brand-text">
+          <div class="brand-title">CODE WITH VISHESH</div>
+          <div class="brand-sub">BUILD • LEARN • INNOVATE</div>
+        </div>
+      </div>
+      <div class="theme-switch" role="group" aria-label="Theme">
+        <button id="themeLightBtn" type="button" class="theme-opt" aria-pressed="false"><span aria-hidden="true">☀️</span> Light</button>
+        <button id="themeDarkBtn" type="button" class="theme-opt" aria-pressed="true"><span aria-hidden="true">🌙</span> Dark</button>
+      </div>
+      <div class="header-utilities">
+        <button id="historyToggle" class="theme-toggle" aria-label="Open calculation history">⏱ HISTORY</button>
+        <button id="settingsToggle" class="theme-toggle" aria-label="Open calculator settings">⚙ SETTINGS</button>
+      </div>
+    </header>
+
+    <span class="eyebrow">AI POWERED</span>
+    <h1 class="hero">SMART VOICE CALCULATOR</h1>
+    <p class="tag">Calculate faster. Speak naturally.</p>
+
+    <main class="app">
+      <section class="card how" aria-labelledby="how-title">
+        <h3 id="how-title">HOW TO USE</h3>
+        <div class="step">
+          <div class="icon">🎙️</div>
+          <div>
+            <h4>Click on "SPEAK HERE"</h4>
+            <p>Start voice input by clicking the microphone button.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="icon">🔊</div>
+          <div>
+            <h4>Speak your calculation</h4>
+            <p>Example: "25 plus 30" — natural language supported.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Get instant result</h4>
+            <p>Your calculation will appear on the calculator automatically.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="calculator-card card" aria-labelledby="calc-title">
+        <div class="calc-inner">
+          <div>
+            <div class="display" role="status" aria-live="polite">
+              <div class="label">EXPRESSION</div>
+              <div id="expressionValue" class="expression-value">0</div>
+              <div class="label result-label">RESULT</div>
+              <div id="displayValue" class="value">0</div>
+            </div>
+            <div class="transcript" id="transcript">You said: <span id="said">—</span></div>
+          </div>
+
+          <div class="calc-toolbar" aria-label="Calculation actions">
+            <span id="memoryIndicator" class="memory-indicator" hidden>M</span>
+            <button class="utility-btn" id="copyResult" aria-label="Copy result">COPY RESULT</button>
+            <button class="utility-btn" id="copyExpression" aria-label="Copy expression">COPY EXPRESSION</button>
+            <button class="utility-btn" id="shareCalculation" aria-label="Share calculation">SHARE</button>
+          </div>
+
+          <div class="mode-row" role="group" aria-label="Calculator mode">
+            <button class="mode-btn active" data-mode="basic" aria-pressed="true">BASIC</button>
+            <button class="mode-btn" data-mode="scientific" aria-pressed="false">SCIENTIFIC</button>
+            <button class="mode-btn" data-mode="tools" aria-pressed="false">TOOLS</button>
+            <div class="angle-mode" role="group" aria-label="Angle unit">
+              <button class="angle-btn active" data-angle="DEG" aria-pressed="true">DEG</button>
+              <button class="angle-btn" data-angle="RAD" aria-pressed="false">RAD</button>
+            </div>
+          </div>
+          <div class="memory-row" role="group" aria-label="Calculator memory">
+            <button class="utility-btn" data-memory="clear" aria-label="Memory clear">MC</button><button class="utility-btn" data-memory="recall" aria-label="Memory recall">MR</button><button class="utility-btn" data-memory="add" aria-label="Add current value to memory">M+</button><button class="utility-btn" data-memory="subtract" aria-label="Subtract current value from memory">M-</button>
+          </div>
+          <div id="scientificKeys" class="scientific-keys" hidden aria-label="Scientific calculator functions">
+            <button class="key sci" data-value="sin(">sin</button><button class="key sci" data-value="cos(">cos</button><button class="key sci" data-value="tan(">tan</button><button class="key sci" data-value="log(">log</button><button class="key sci" data-value="ln(">ln</button>
+            <button class="key sci" data-value="asin(">asin</button><button class="key sci" data-value="acos(">acos</button><button class="key sci" data-value="atan(">atan</button><button class="key sci" data-value="sqrt(">sqrt</button><button class="key sci" data-value="cbrt(">cbrt</button>
+            <button class="key sci" data-action="square">x2</button><button class="key sci" data-action="cube">x3</button><button class="key sci" data-value="^">x^y</button><button class="key sci" data-action="reciprocal">1/x</button><button class="key sci" data-value="!">n!</button>
+            <button class="key sci" data-value="(">(</button><button class="key sci" data-value=")">)</button><button class="key sci" data-value="pi">pi</button><button class="key sci" data-value="e">e</button>
+          </div>
+
+          <section id="smartTools" class="smart-tools" hidden aria-labelledby="toolsTitle">
+            <div class="tools-heading"><h3 id="toolsTitle">SMART TOOLS</h3><p>Finance and percentage calculations</p></div>
+            <div class="tool-tabs" role="tablist" aria-label="Smart finance tools">
+              <button class="utility-btn active" data-tool="percentage" role="tab" aria-selected="true">PERCENTAGE</button><button class="utility-btn" data-tool="discount" role="tab" aria-selected="false">DISCOUNT</button><button class="utility-btn" data-tool="gst" role="tab" aria-selected="false">GST / TAX</button><button class="utility-btn" data-tool="tip" role="tab" aria-selected="false">TIP</button><button class="utility-btn" data-tool="split" role="tab" aria-selected="false">SPLIT BILL</button>
+            </div>
+            <form class="tool-form" data-finance-form="percentage">
+              <label>Calculation <select name="kind"><option value="of">Percentage of a number</option><option value="what">What percentage?</option><option value="change">Percentage change</option></select></label>
+              <label data-percent-label>Percentage <input name="rate" type="number" min="0" step="any" inputmode="decimal" required></label><label data-value-label>Value <input name="value" type="number" min="0" step="any" inputmode="decimal" required></label>
+              <button class="utility-btn" type="submit">CALCULATE</button><button class="utility-btn" type="reset">RESET</button>
+            </form>
+            <form class="tool-form" data-finance-form="discount" hidden>
+              <label>Mode <select name="kind"><option value="standard">Calculate discount</option><option value="reverse">Find original price</option></select></label><label data-price-label>Original price <input name="price" type="number" min="0" step="any" inputmode="decimal" required></label><label>Discount % <input name="rate" type="number" min="0" max="99.999" step="any" inputmode="decimal" required></label><label data-quantity-label>Quantity <input name="quantity" type="number" min="1" step="1" value="1" inputmode="numeric"></label>
+              <button class="utility-btn" type="submit">CALCULATE</button><button class="utility-btn" type="reset">RESET</button>
+            </form>
+            <form class="tool-form" data-finance-form="gst" hidden>
+              <label>Mode <select name="kind"><option value="add">Add GST / Tax</option><option value="remove">Remove GST / Tax</option></select></label><label>Amount <input name="amount" type="number" min="0" step="any" inputmode="decimal" required></label><label>GST rate % <input name="rate" type="number" min="0" step="any" value="18" inputmode="decimal" required></label><div class="preset-row" aria-label="GST presets"><button type="button" data-preset="5">5%</button><button type="button" data-preset="12">12%</button><button type="button" data-preset="18">18%</button><button type="button" data-preset="28">28%</button></div>
+              <button class="utility-btn" type="submit">CALCULATE</button><button class="utility-btn" type="reset">RESET</button>
+            </form>
+            <form class="tool-form" data-finance-form="tip" hidden>
+              <label>Bill amount <input name="bill" type="number" min="0" step="any" inputmode="decimal" required></label><label>Tip % <input name="tip" type="number" min="0" step="any" value="10" inputmode="decimal" required></label><label>People <input name="people" type="number" min="1" step="1" value="1" inputmode="numeric" required></label><label>Tax / GST % (optional) <input name="tax" type="number" min="0" step="any" value="0" inputmode="decimal"></label><label><input name="tipAfterTax" type="checkbox"> Calculate tip after tax</label><div class="preset-row" aria-label="Tip presets"><button type="button" data-preset="5">5%</button><button type="button" data-preset="10">10%</button><button type="button" data-preset="15">15%</button><button type="button" data-preset="18">18%</button><button type="button" data-preset="20">20%</button></div>
+              <button class="utility-btn" type="submit">CALCULATE</button><button class="utility-btn" type="reset">RESET</button>
+            </form>
+            <form class="tool-form" data-finance-form="split" hidden>
+              <label>Total bill <input name="bill" type="number" min="0" step="any" inputmode="decimal" required></label><label>People <input name="people" type="number" min="1" step="1" value="2" inputmode="numeric" required></label><label>Tip % (optional) <input name="tip" type="number" min="0" step="any" value="0" inputmode="decimal"></label><label>GST / Tax % (optional) <input name="tax" type="number" min="0" step="any" value="0" inputmode="decimal"></label>
+              <button class="utility-btn" type="submit">CALCULATE</button><button class="utility-btn" type="reset">RESET</button>
+            </form>
+            <div id="financeError" class="finance-error" role="alert"></div><div id="financeResult" class="finance-result" aria-live="polite">Enter your values and tap Calculate.</div><div class="finance-actions" hidden><button id="copyFinance" class="utility-btn">COPY</button><button id="shareFinance" class="utility-btn">SHARE</button></div>
+          </section>
+
+          <div id="basicKeypad" class="keys" role="application" aria-label="Calculator keypad">
+            <button class="key" data-action="clear" aria-label="Clear calculator">C</button>
+            <button class="key" data-action="back" aria-label="Delete last character">⌫</button>
+            <button class="key" data-action="percent" aria-label="Percent">%</button>
+            <button class="key op" data-value="/" aria-label="Divide">÷</button>
+
+            <button class="key" data-value="7">7</button>
+            <button class="key" data-value="8">8</button>
+            <button class="key" data-value="9">9</button>
+            <button class="key op" data-value="*" aria-label="Multiply">×</button>
+
+            <button class="key" data-value="4">4</button>
+            <button class="key" data-value="5">5</button>
+            <button class="key" data-value="6">6</button>
+            <button class="key op" data-value="-" aria-label="Subtract">−</button>
+
+            <button class="key" data-value="1">1</button>
+            <button class="key" data-value="2">2</button>
+            <button class="key" data-value="3">3</button>
+            <button class="key op" data-value="+" aria-label="Add">+</button>
+
+            <button class="key zero" data-value="0">0</button>
+            <button class="key" data-value=".">.</button>
+            <button class="key equal" data-action="equals" aria-label="Equals">=</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="voice-panel card">
+        <div class="voice-accent" aria-hidden="true">
+          <span class="accent-line"></span>
+          <span class="accent-wave"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="accent-line"></span>
+        </div>
+
+        <h3 class="voice-title">VOICE ASSISTANT</h3>
+        <p id="micStatus" class="voice-subtitle">Tap to speak or use your voice to calculate.</p>
+
+        <div class="voice-badges" aria-hidden="true">
+          <span class="voice-badge">⚡ Fast</span>
+          <span class="voice-badge">🎯 Accurate</span>
+          <span class="voice-badge">🎙️ Hands-Free</span>
+        </div>
+
+        <div class="mic-wrap" id="micWrap">
+          <div class="mic-waveform side left" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+
+          <div id="mic" class="mic" data-state="idle" role="button" tabindex="0" aria-label="Start voice input">
+            <span class="mic-glow" aria-hidden="true"></span>
+            <span class="mic-outer-ring" aria-hidden="true"></span>
+            <span class="mic-pulse-ring p1" aria-hidden="true"></span>
+            <span class="mic-pulse-ring p2" aria-hidden="true"></span>
+            <span class="mic-pulse-ring p3" aria-hidden="true"></span>
+            <span class="mic-progress" aria-hidden="true"></span>
+            <div class="mic-core">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" fill="currentColor"/>
+                <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.93V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.07A7 7 0 0 0 19 11Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="mic-waveform side right" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <button id="micLabel" type="button" class="mic-status-btn" data-state="idle">
+          <span class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z" fill="currentColor"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.93V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.07A7 7 0 0 0 19 11Z" fill="currentColor"/></svg>
+          </span>
+          <span class="status-text">Tap to speak</span>
+        </button>
+
+        <p class="mic-hint">Say a calculation like <strong>&ldquo;2 plus 2&rdquo;</strong></p>
+
+        <div class="voice-examples" role="group" aria-label="Example voice commands">
+          <button type="button" class="cmd-chip" data-say="square root of 144">&ldquo;Square root of 144&rdquo;</button>
+          <button type="button" class="cmd-chip" data-say="20 percent off 999">&ldquo;20 percent off 999&rdquo;</button>
+          <button type="button" class="cmd-chip" data-say="dark mode">&ldquo;Dark mode&rdquo;</button>
+        </div>
+
+        <audio id="micActivationSound" src="mic-activation.mp3" preload="auto"></audio>
+      </aside>
+
+      <div style="grid-column:1 / -1"></div>
+    </main>
+
+    <section id="historyPanel" class="side-panel card" hidden aria-labelledby="historyTitle">
+      <div class="panel-heading"><h3 id="historyTitle">HISTORY</h3><button class="utility-btn" id="clearHistory">CLEAR ALL</button><button class="utility-btn" data-close="historyPanel">CLOSE</button></div>
+      <input id="historySearch" class="panel-input" type="search" placeholder="Search calculations" aria-label="Search calculation history">
+      <div id="historyList" class="history-list"></div>
+    </section>
+    <section id="settingsPanel" class="side-panel card" hidden aria-labelledby="settingsTitle">
+      <div class="panel-heading"><h3 id="settingsTitle">SETTINGS</h3><button class="utility-btn" data-close="settingsPanel">CLOSE</button></div>
+      <fieldset class="setting-group"><legend>Appearance</legend><label><input type="radio" name="theme" value="light"> Light</label><label><input type="radio" name="theme" value="dark"> Dark</label><label><input type="radio" name="theme" value="system"> System</label></fieldset>
+      <fieldset class="setting-group"><legend>Accessibility</legend><label><input id="highContrast" type="checkbox"> High contrast</label><label><input id="reduceMotion" type="checkbox"> Reduce animations</label><label><input id="largeButtons" type="checkbox"> Large buttons</label></fieldset>
+      <fieldset class="setting-group"><legend>Voice</legend><label><input id="voiceCommands" type="checkbox"> Voice commands</label><label><input id="voiceFeedback" type="checkbox"> Voice feedback</label><label>Language <select id="voiceLanguage"><option value="en-IN">English (India)</option><option value="hi-IN">Hindi (India)</option></select></label><label>Speech speed <select id="voiceRate"><option value="0.75">0.75x</option><option value="1" selected>1.0x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select></label></fieldset>
+    </section>
+    <section class="features">
+      <div class="feature card">
+        <div class="icon">🎙️</div>
+        <div>
+          <strong>VOICE POWERED</strong>
+          <div class="muted">Voice-based calculation</div>
+        </div>
+      </div>
+      <div class="feature card">
+        <div class="icon">⚡</div>
+        <div>
+          <strong>FAST & ACCURATE</strong>
+          <div class="muted">Instant mathematical results</div>
+        </div>
+      </div>
+      <div class="feature card">
+        <div class="icon">☝️</div>
+        <div>
+          <strong>EASY TO USE</strong>
+          <div class="muted">Simple voice interaction</div>
+        </div>
+      </div>
+      <div class="feature card">
+        <div class="icon">💻</div>
+        <div>
+          <strong>MODERN UI/UX</strong>
+          <div class="muted">Futuristic responsive interface</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="creator card">
+      <div class="avatar">V</div>
+      <div>
+        <div>Made with ❤️ by</div>
+        <div>Vishesh Jaiswal</div>
+        <div>Front-End Developer | BCA Student</div>
+      </div>
+    </section>
+
+    <footer>
+      <div>A smarter way to calculate — <span style="color: var(--accent-cyan); font-weight: 800;">Just speak!</span></div>
+      <div>© 2026 Code With Vishesh — Voice Calculator</div>
+    </footer>
+
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div id="voiceDialog" class="voice-dialog card" hidden role="dialog" aria-modal="true" aria-labelledby="voiceDialogTitle"><h3 id="voiceDialogTitle">VOICE CALCULATOR</h3><p id="voiceDialogState">Listening...</p><p id="voiceLiveTranscript" class="voice-live">Say a calculation or command</p><button id="stopVoice" class="utility-btn">STOP LISTENING</button><button id="closeVoiceDialog" class="utility-btn">CLOSE</button></div>
+
+  <script src="node.js"></script>
+</body>
+</html>
